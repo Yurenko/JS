@@ -73,7 +73,7 @@ const account = {
     for (let i = 0; i < this.transactions.length; i += 1) {
       let user = this.transactions[i]
       if (user.id == id) {
-        return this.transactions[i]
+        return user
       }
     }
   },
