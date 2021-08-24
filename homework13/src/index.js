@@ -1,7 +1,9 @@
 import debounce from 'lodash.debounce';
 import card from './card-item.hbs';
 import seatings from './servises/fetchImg';
-import './styles.css'
+import * as basicLightbox from 'basiclightbox'
+import './styles.css';
+import 'basicLightbox/dist/basicLightbox.min.css';
 
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
@@ -14,11 +16,18 @@ const button = document.querySelector('.learn')
 
 input.addEventListener('input', debounce(addCard, 500));
 button.addEventListener('click', loadMore)
+ul.addEventListener('click', imgLarge)
+
+
+function imgLarge(e) {
+    basicLightbox.create(`
+		<img width="1400" height="900" src="${e.target.currentSrc}">
+	`).show()
+}
 
 function addCard(e) {
     seatings.query = e.target.value;
     if (seatings.query.length > 0) {
-
         return seatings.fetchCountries().then(res => res.map(item => card(item)).join(''))
             .then(res => setItemsCard(res)).then(
                 ul.innerHTML = '',
