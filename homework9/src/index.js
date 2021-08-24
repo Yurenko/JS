@@ -67,15 +67,16 @@ const galleryItems = [
 ];
 
 const galery = document.querySelector('.js-gallery');
-const first = galleryItems.map(i => listGalery(i)).join('');
 const ul = document.querySelector('ul.js-gallery');
-const div = document.querySelector('div.lightbox');
-const img = document.querySelector('img.lightbox__image');
+const div = document.querySelector('.js-lightbox');
+const imgSrc = document.querySelector('.lightbox__image');
 const button = document.querySelector('button[data-action="close-lightbox"]')
 
 ul.addEventListener('click', modal)
-button.addEventListener('click', close)
+div.addEventListener('click', close)
+document.addEventListener('keyup', buttonClick)
 
+const first = galleryItems.map(i => listGalery(i)).join('');
 function appendList() {
     galery.insertAdjacentHTML('beforeend', first)
 }
@@ -102,10 +103,18 @@ function modal(e) {
     e.preventDefault()
     const el = e.target;
     div.classList.add('is-open')
-    img.src = el.parentNode.href
+    imgSrc.src = el.src
 }
 
-function close(){
+function buttonClick(e) {
+    if (e.key == "Escape") {
+        close(e)
+        console.log('ok')
+    }
+}
+
+function close(e) {
+    if (e.target.localName == "img") return;
     div.classList.remove('is-open')
-    img.src = ''
+    imgSrc.src = ''
 }
